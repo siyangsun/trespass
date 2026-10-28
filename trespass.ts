@@ -144,7 +144,7 @@ fs.watch(dir, { recursive: true }, (_, f) => {
 
 const readBody = async (req: http.IncomingMessage) => JSON.parse(Buffer.concat(await Array.fromAsync(req)).toString() || '{}')
 
-http.createServer(async (req, res) => {
+const server = http.createServer(async (req, res) => {
   const u = new URL(req.url ?? '/', 'http://x')
   const json = (o: unknown, code = 200) => { res.writeHead(code, { 'content-type': 'application/json' }); res.end(JSON.stringify(o)) }
   try {
@@ -171,8 +171,13 @@ http.createServer(async (req, res) => {
   } catch (e) {
     json({ error: (e as Error).message }, 500)
   }
-}).listen(port, '127.0.0.1', () => {
-  const url = `http://localhost:${port}`
+})
+// ponytail: preferred port 4173 (or $PORT); if taken, let the OS pick a free one
+const start = (p: number) => server.listen(p, '127.0.0.1')
+server.on('error', (e: NodeJS.ErrnoException) => { if (e.code === 'EADDRINUSE' && port) start(0); else throw e })
+server.on('listening', () => {
+  const url = `http://localhost:${(server.address() as { port: number }).port}`
   console.log(`trespass: ${dir}\n  ${url}`)
   if (!process.env.NO_OPEN) exec(`${process.platform === 'darwin' ? 'open' : process.platform === 'win32' ? 'start ""' : 'xdg-open'} ${url}`)
 })
+start(port)
