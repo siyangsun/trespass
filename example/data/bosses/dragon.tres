@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Boss" load_steps=3 format=3 uid="uid://b7xdragon"]
+
+[ext_resource type="Script" path="res://data/bosses/boss.gd" id="1_ab3"]
+[ext_resource type="Texture2D" path="res://art/dragon.png" id="2_cd4"]
+
+[resource]
+script = ExtResource("1_ab3")
+name = "dragon"
+hp = 900
+speed = 0.8
+tier = 2
+sprite = ExtResource("2_cd4")
+phases = 3

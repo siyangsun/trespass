@@ -1,0 +1,14 @@
+{
+  "name": "trespass",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node trespass.ts",
+    "check": "tsc --noEmit",
+    "test": "node --test \"test/*.test.ts\""
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2"
+  }
+}

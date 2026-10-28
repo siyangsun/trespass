@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>trespass</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.0/dist/css/tabulator.min.css">
+<style>
+  :root { color-scheme: light dark; --pend: #ffe58a; --stale: #ffb4b4; --dim: #8888; }
+  @media (prefers-color-scheme: dark) { :root { --pend: #6b5a10; --stale: #7a2323; } }
+  body { margin: 0; font: 13px system-ui, sans-serif; display: flex; flex-direction: column; height: 100vh; }
+  header { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 16px; align-items: center; border-bottom: 1px solid var(--dim); }
+  header b { margin-right: 6px; }
+  input[type=text] { min-width: 0; }
+  #grid { flex: 1; min-height: 0; margin: 0 16px; }
+  #status { padding: 4px 16px; color: GrayText; }
+  .tabulator-cell.pending { background: var(--pend) !important; }
+  .tabulator-cell.dflt { opacity: .5; }
+  .tabulator-cell.ro { font-style: italic; }
+  .tabulator-row.stale .tabulator-cell { background: var(--stale) !important; }
+  .sw { display: inline-block; width: 12px; height: 12px; border: 1px solid var(--dim); margin-right: 6px; vertical-align: -2px; }
+  dialog { max-width: min(900px, 92vw); }
+  .thumb { height: 20px; image-rendering: pixelated; vertical-align: middle; margin-right: 6px; }
+  #dimg { display: block; max-width: 100%; max-height: 50vh; image-rendering: pixelated; margin-bottom: 8px; }
+  pre { max-height: 60vh; overflow: auto; margin: 0 0 12px; }
+  .add { color: #1a7f37; } .del { color: #cf222e; } .err { color: #cf222e; font-weight: 600; }
+  #toast { position: fixed; bottom: 16px; left: 16px; background: CanvasText; color: Canvas; padding: 8px 12px; border-radius: 6px; display: none; max-width: 70vw; }
+</style>
+</head>
+<body>
+<header>
+  <b>trespass</b>
+  <select id="cls" title="Resource class"></select>
+  <select id="folder" title="Limit to a subfolder"></select>
+  <input id="filter" type="text" size="22" placeholder="filter: tier == 3, or text">
+  <button id="fill" title="Copy the top cell of each selected column down">Fill down</button>
+  <input id="formula" type="text" size="14" placeholder="v * 1.15">
+  <button id="apply" title="Apply to selected number cells">Apply</button>
+  <button id="dup">Duplicate</button>
+  <button id="new" title="New file with every property at its script default">New</button>
+  <button id="del" title="Move selected files to .trespass-trash/">Delete</button>
+  <button id="find">Find/Replace</button>
+  <button id="showcols" title="Unhide all columns (hide via the column header menu)">Show cols</button>
+  <button id="export">Export CSV</button>
+  <button id="import">Import CSV</button>
+  <input id="file" type="file" accept=".csv" hidden>
+  <span style="flex:1"></span>
+  <button id="discard">Discard</button>
+  <button id="save">Save</button>
+</header>
+<div id="grid"></div>
+<div id="status"></div>
+<dialog id="dlg"><img id="dimg" alt="" style="display:none">
+<pre id="dbody"></pre><form method="dialog"><button value="cancel">Close</button> <button id="ok" value="ok">Write</button></form></dialog>
+<div id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/tabulator-tables@6.3.0/dist/js/tabulator.min.js"></script>
+<script type="module" src="/web/app.ts"></script>
+</body>
+</html>
