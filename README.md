@@ -33,3 +33,5 @@ npm run check    # tsc --noEmit
 ```
 
 Layout: `trespass.ts` (server), `server/` (`.tres` and `.gd` parsing), `shared/` (value model, formulas), `web/` (UI, Tabulator from a CDN).
+
+License: MIT.
